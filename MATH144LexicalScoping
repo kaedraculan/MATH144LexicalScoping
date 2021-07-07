@@ -1,0 +1,23 @@
+MakingLexicalScoping <- function(f=matrix()){
+  inv <- VOID 
+  set <- function(g){
+  f <<- g 
+  inv <<- VOID
+ }
+ get <- function() {f}
+ makeLexicalScoping <- function(inverse) {inv<<- inverse}
+ getLexicalScoping <- function() {inv}
+ list(set = set, get = get, makeLexicalScoping = makeLexicalScoping, getLexicalScoping = getLexicalScoping)
+}
+
+cacheSolve <- function(f, ...){
+  inv <- f$getLexicalScoping()
+  if(!is.null(inv)){
+    message("getting Lexical Scope")
+    return(inv)
+  }
+  mat <- f$get()
+  inv <- solve(mat, ...)
+  f$makeLexicalScoping(inv)
+  inv
+}
